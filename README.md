@@ -26,7 +26,7 @@ Light theme | Dark theme
 1. Clone the repository<br>`git clone https://github.com/satoscio/shashin`
 2. Create a virtual environment<br>`python3 -m venv <name>`
 3. Install pip3<br>`python -m pip3 install --upgrade pip`
-4. Install the required libraries<br>`pip3 intall -r requirements.txt`
+4. Install the required libraries<br>`pip3 install -r requirements.txt`
 5. You're good to go!
 
 ### Usage
