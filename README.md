@@ -30,16 +30,16 @@ Light theme | Dark theme
 5. You're good to go!
 
 ### Usage
-`python3 main.py <path/to/picture.jpg> [light|dark] [photo title]`
+`python3 main.py <path/to/picture.jpg> [-c/--theme {dark, light}] [-t/--title "insert your title here"]`
 
 Example:<br>
-`python3 main.py /home/satoscio/pictures/japan-2024/JPN01843.jpg light 出口を探している`
+`python3 main.py /home/satoscio/pictures/japan-2024/JPN01843.jpg --theme light --title "出口を探している"`
 
 ## Notes
 
-- Theme parameter is optional, default will be light
 - This script has been written to work with my gear (Sony and Canon cameras), not everything might work well, open an issue to help me out :)
 - This script will ONLY work with pictures that have been edited in Adobe Lightroom (other software MIGHT work)
+- Fonts included with this repository are publicly available on Google Fonts
 
 ## TO-DO
 

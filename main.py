@@ -1,61 +1,82 @@
-import pyexiv2, sys, re
+import pyexiv2, re, argparse, os
 from PIL import Image, ImageFont, ImageDraw
 
 # Constants
-
 COPYRIGHT = "© Satoscio" # change to your own liking
+THEMES = {'dark', 'light'}
 
-lensdata = False
+# Default theme values
+t_r, t_g, t_b = 53, 58, 61		# Text color (R, G, B)
+b_r, b_g, b_b = 255, 255, 255	# Background color (R, G, B)
 angle = "angle.png"
 
-filename = sys.argv[1]
+# Parsing command-line arguments
+parser = argparse.ArgumentParser()
+parser.add_argument("file", help="Your photo.", type=str)
+parser.add_argument("-c", "--theme", help="Set the final image\'s theme. (optional, default=light)", type=str)
+parser.add_argument("-t", "--title", help="Add a title for your photo. (use quotation marks) (optional)", type=str)
+args = parser.parse_args()
 
-if sys.argv[2].lower() not in ['dark', 'light']:
-	TITLE = "\"" + (' '.join(sys.argv[2:])) + "\""
-else:
-	TITLE = "\"" + (' '.join(sys.argv[3:])) + "\""
-
+# Function to detect Japanese characters (Hiragana, Katakana and Kanji)
 def isJP():
 	jp = re.compile(r'[\u3040-\u30FF\u4E00-\u9FFF]')
-	return len(jp.findall(TITLE)) != 0
+	return len(jp.findall(title)) != 0
 
-
-if sys.argv[2].lower() == "dark":
-	t_r, t_g, t_b = 202, 197, 194
-	b_r, b_g, b_b = 53, 58, 61
-	angle = "angle-invert.png"
+# Check if user provided a valid file
+if os.path.isfile(args.file) and args.file:
+	filename = args.file
 else:
-	t_r, t_g, t_b = 53, 58, 61
-	b_r, b_g, b_b = 255, 255, 255
+	raise Exception("No valid file was provided!")
 
+# Check if a theme has been specified. If not, light is still default and active
+if args.theme and args.theme.lower() in THEMES:
+	if args.theme.lower() == "dark":
+		t_r, t_g, t_b = 202, 197, 194
+		b_r, b_g, b_b = 53, 58, 61
+		angle = "angle-invert.png"
+
+# Check if a title has been specified
+if args.title:
+	title = "\"" + args.title + "\""
+else:
+	title = ""
+
+
+# EXIF evaluation
 img = pyexiv2.Image(filename)
 data = img.read_exif()
-lens_data = img.read_xmp()
-camera = data["Exif.Image.Make"] + " " + data["Exif.Image.Model"]
-
+# Camera make
 if data["Exif.Image.Make"].lower() == "canon":
 	camera = data["Exif.Image.Model"]
-
+else:
+	camera = data["Exif.Image.Make"] + " " + data["Exif.Image.Model"]
+# Prettifying camera names :)
 camera = camera.replace("SONY ILCE-", "Sony Alpha ")
+camera = camera.replace("SONY ILCA-", "Sony Alpha ")
 
+# Lens model
+lens_data = img.read_xmp()
 if "Xmp.crs.LensProfileName" in lens_data.keys():
 	# Regex to extract lens name
 	lens_model = str(re.search(r'\((.+)\)', lens_data["Xmp.crs.LensProfileFilename"]).group(1))
 	if "TAMRON" in lens_model:							# Tamron data is weird, okay?
 		lens_model = lens_model[:(len(lens_model)-4)] 
-	lensdata = True
+	# lensdata = True // WIP FEATURE
 else:
 	lens_model = ""
+	# lensdata = False // WIP FEATURE
 
-# SS evaluation
+# Shutter speed
 exposure = eval(data["Exif.Photo.ExposureTime"])
 if exposure < 1:
 	exposure = "1/"+str(int(1 / eval(data["Exif.Photo.ExposureTime"])))
 exposure = str(exposure) + "s"
-# f-stop evaluation
+
+# f-stop 
 fstop = "f/" + str(eval(data["Exif.Photo.FNumber"]))
 iso_speed = data["Exif.Photo.ISOSpeedRatings"]
-# EV comp evaluation
+
+# Exposure compensation
 exp_comp = eval(data["Exif.Photo.ExposureBiasValue"])
 if exp_comp > 0:
 	exp_comp = "+" + str(exp_comp)
@@ -65,6 +86,8 @@ elif exp_comp == 0:
 img.close()
 img = Image.open(filename)
 
+
+# Graphics
 padding = int(((img.size[0]+img.size[1])/2)/8) # Average height and width and take 12.5%
 size = tuple([s+padding for s in img.size])
 layer = Image.new('RGB', size, (b_r, b_g, b_b))
@@ -113,7 +136,7 @@ if isJP():																# Photo title
 	font_temp =  font_japanese
 else:
 	font_temp =  font_extralight_italic
-text_title_l = textlayer.textlength(TITLE, font_temp)
+text_title_l = textlayer.textlength(title, font_temp)
 	
 h_text_pos = int(layer.size[0] * 0.1)
 
@@ -178,7 +201,7 @@ textlayer.text(
 		#layer.size[1] + (2.5 * lineheight)
         layer.size[1] - fontsize + (1.5 * lineheight)
 	),
-	TITLE,
+	title,
 	(t_r, t_g, t_b),
 	font = font_titolo
 )
