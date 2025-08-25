@@ -22,14 +22,27 @@ Light theme | Dark theme
 - Python 3.x (not sure which one tbh)
 - Python 3 PIP
 
-### Installation
-1. Clone the repository<br>`git clone https://github.com/satoscio/shashin`
-2. Create a virtual environment<br>`python3 -m venv <name>`
-3. Install pip3<br>`python -m pip3 install --upgrade pip`
-4. Install the required libraries<br>`pip3 install -r requirements.txt`
-5. You're good to go!
+### Windows
+1. Install [Git](https://git-scm.com/downloads), [Python 3](https://python.org/downloads) and the [Visual C++ 2022 redistributable (direct Microsoft link)](https://aka.ms/vs/17/release/VC_redist.x64.exe)
+2. Clone the repository<br>`git clone https://github.com/satoscio/shashin` and `cd` into it
+3. Create a virtual environment<br>`python -m venv <name>`
+4. Enable the virtual environment<br>`<name>\Scripts\activate.bat`
+5. Install the required libraries<br>`pip3 install -r requirements.txt`
+6. You're good to go!
 
-### Usage
+### Linux
+1. Install `git`, `python3-pip` and `python3-venv` via your distro's package manager.
+2. Clone the repository<br>`git clone https://github.com/satoscio/shashin` and `cd` into it
+3. Create a virtual environment<br>`python3 -m venv <name>`
+4. Enable the virtual environment<br>`source <name>\bin\activate` (or `activate.fish` if you use the fish shell)
+5. Install the required libraries<br>`python3 -m pip install -r requirements.txt`
+6. You're good to go!
+
+### macOS
+
+Figure it out yourself, rich kid
+
+## Usage
 `python3 main.py <path/to/picture.jpg> [-c/--theme {dark, light}] [-t/--title "insert your title here"]`
 
 Example:<br>
