@@ -44,7 +44,7 @@ Light theme | Dark theme
 2. Install `python3`, `git` and `inih` from Homebrew
 3. Clone the repository<br>`git clone https://github.com/satoscio/shashin` and `cd` into it
 4. Create a virtual environment<br>`python3 -m venv <name>`
-5. Enable the virtual environment<br>`source <name>\bin\activate`
+5. Enable the virtual environment<br>`source <name>/bin/activate`
 6. Install the required libraries<br>`python3 -m pip install -r requirements.txt`
 7. You're good to go!
 
