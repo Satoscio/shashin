@@ -48,8 +48,6 @@ Light theme | Dark theme
 6. Install the required libraries<br>`python3 -m pip install -r requirements.txt`
 7. You're good to go!
 
-Figure it out yourself, rich kid
-
 ## Usage
 `python3 main.py <path/to/picture.jpg> [-c/--theme {dark, light}] [-t/--title "insert your title here"]`
 
