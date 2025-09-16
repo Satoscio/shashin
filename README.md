@@ -34,7 +34,7 @@ Light theme | Dark theme
 1. Install `git`, `python3-pip` and `python3-venv` (or `python-pip` and `python-venv`, depends on you distro) via your distro's package manager.
 2. Clone the repository<br>`git clone https://github.com/satoscio/shashin` and `cd` into it
 3. Create a virtual environment<br>`python3 -m venv <name>`
-4. Enable the virtual environment<br>`source <name>\bin\activate` (or `activate.fish` if you use the fish shell)
+4. Enable the virtual environment<br>`source <name>/bin/activate` (or `activate.fish` if you use the fish shell)
 5. Install the required libraries<br>`python3 -m pip install -r requirements.txt`
 6. You're good to go!
 
